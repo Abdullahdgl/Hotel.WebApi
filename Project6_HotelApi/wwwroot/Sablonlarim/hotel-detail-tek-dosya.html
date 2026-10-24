@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NYX Hotel Milan | StayFinder</title>
+    <meta name="description" content="NYX Hotel Milan: Milano Centrale yakınında 4 yıldızlı modern şehir oteli. Odaları, özellikleri ve fiyatları inceleyin.">
+
+    <!-- Google Fonts: Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Sayfa stilleri -->
+    <style>
+/* =========================================================
+   StayFinder - Otel Detay Sayfası
+   Ana sayfa ve otel listesi ile aynı tasarım değişkenleri.
+   ========================================================= */
+
+/* ---------- Tasarım değişkenleri ---------- */
+:root {
+    --sf-ink: #1B2140;
+    --sf-text: #4A5070;
+    --sf-muted: #7A7F9A;
+    --sf-primary: #3B3FB6;
+    --sf-primary-dark: #2E3195;
+    --sf-primary-soft: #EEF0FC;
+    --sf-bg: #FFFFFF;
+    --sf-bg-soft: #F5F6FA;
+    --sf-line: #E6E8F0;
+    --sf-success: #1E8A5A;
+    --sf-success-soft: #E7F5EE;
+    --sf-star: #F2A93B;
+
+    --sf-radius-sm: 10px;
+    --sf-radius: 16px;
+    --sf-radius-lg: 24px;
+
+    --sf-shadow-sm: 0 2px 8px rgba(27, 33, 64, 0.05);
+    --sf-shadow: 0 10px 30px rgba(27, 33, 64, 0.08);
+    --sf-shadow-lg: 0 24px 60px rgba(27, 33, 64, 0.12);
+
+    --sf-font: "Manrope", "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ---------- Genel ---------- */
+body {
+    font-family: var(--sf-font);
+    color: var(--sf-text);
+    background: var(--sf-bg-soft);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    color: var(--sf-ink);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1280px;
+}
+
+:focus-visible {
+    outline: 3px solid rgba(59, 63, 182, 0.35);
+    outline-offset: 2px;
+}
+
+/* ---------- Header / Navbar ---------- */
+.site-header {
+    background: var(--sf-bg-soft);
+}
+
+.site-header .navbar {
+    padding: 1.25rem 0;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--sf-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+}
+
+.brand-text {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--sf-ink);
+    letter-spacing: -0.03em;
+}
+
+.brand-text span {
+    color: var(--sf-primary);
+}
+
+.main-menu .nav-link {
+    color: var(--sf-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem !important;
+    border-radius: 999px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.main-menu .nav-link:hover {
+    color: var(--sf-ink);
+}
+
+.main-menu .nav-link.active {
+    color: var(--sf-primary);
+    background: #fff;
+    box-shadow: var(--sf-shadow-sm);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.currency-pill {
+    border: 0;
+    background: #fff;
+    color: var(--sf-ink);
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    box-shadow: var(--sf-shadow-sm);
+}
+
+.account-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--sf-ink);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease;
+}
+
+.account-btn:hover {
+    background: var(--sf-primary);
+    color: #fff;
+}
+
+.navbar-toggler {
+    border: 0;
+    font-size: 1.6rem;
+    color: var(--sf-ink);
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* ---------- Ortak parçalar ---------- */
+.hotel-page {
+    padding: 0.5rem 0 5rem;
+}
+
+.stars {
+    color: var(--sf-star);
+    letter-spacing: 1px;
+}
+
+.rating-score {
+    min-width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--sf-primary);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.05rem;
+    border-radius: 14px 14px 14px 4px;
+}
+
+.price-meta {
+    font-size: 0.8rem;
+    color: var(--sf-muted);
+}
+
+.price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--sf-ink);
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+
+.price-note {
+    font-size: 0.78rem;
+    color: var(--sf-muted);
+    margin-bottom: 0.8rem;
+}
+
+.btn-primary-sf {
+    background: var(--sf-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 0;
+    border-radius: var(--sf-radius-sm);
+    padding: 0.7rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary-sf:hover,
+.btn-primary-sf:focus-visible {
+    background: var(--sf-primary-dark);
+    color: #fff;
+}
+
+.media-badge {
+    position: absolute;
+    left: 0.75rem;
+    top: 0.75rem;
+    background: var(--sf-ink);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+}
+
+/* ---------- Breadcrumb ---------- */
+.sf-breadcrumb {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.sf-breadcrumb a {
+    color: var(--sf-muted);
+    font-weight: 600;
+}
+
+.sf-breadcrumb a:hover {
+    color: var(--sf-primary);
+}
+
+.sf-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: "\F285";
+    font-family: "bootstrap-icons";
+    font-size: 0.65rem;
+    color: var(--sf-muted);
+    padding-top: 0.3rem;
+}
+
+.sf-breadcrumb .active {
+    color: var(--sf-ink);
+    font-weight: 700;
+}
+
+/* ---------- Hotel Heading ---------- */
+.hotel-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.hotel-title {
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    letter-spacing: -0.035em;
+    margin-bottom: 0.3rem;
+}
+
+.hotel-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.stars-text {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--sf-muted);
+}
+
+.hotel-address {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    font-weight: 600;
+    color: var(--sf-ink);
+}
+
+.hotel-address i {
+    color: var(--sf-primary);
+}
+
+.map-link {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--sf-primary);
+    margin-left: 0.35rem;
+}
+
+.map-link:hover {
+    text-decoration: underline;
+}
+
+.heading-side {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.heading-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fff;
+    border-radius: var(--sf-radius);
+    box-shadow: var(--sf-shadow-sm);
+    padding: 0.6rem 0.6rem 0.6rem 1.1rem;
+    text-align: right;
+}
+
+.rating-text strong {
+    display: block;
+    color: var(--sf-ink);
+    line-height: 1.2;
+}
+
+.rating-text span {
+    font-size: 0.8rem;
+    color: var(--sf-muted);
+    white-space: nowrap;
+}
+
+.rating-score-lg {
+    min-width: 54px;
+    height: 54px;
+    font-size: 1.25rem;
+}
+
+.heading-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--sf-ink);
+    box-shadow: var(--sf-shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    transition: color 0.2s ease;
+}
+
+.icon-btn:hover {
+    color: var(--sf-primary);
+}
+
+.fav-btn:hover,
+.fav-btn.is-active {
+    color: #D6455D;
+}
+
+/* ---------- Hotel Gallery ---------- */
+.hotel-gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: repeat(2, 220px);
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+}
+
+.gallery-item {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--sf-radius);
+    background: linear-gradient(160deg, #DADDF6, #F5F6FA);
+}
+
+.gallery-main {
+    grid-row: span 2;
+    border-radius: var(--sf-radius-lg);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.04);
+}
+
+.gallery-tag {
+    position: absolute;
+    left: 0.7rem;
+    bottom: 0.7rem;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--sf-ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: rgba(27, 33, 64, 0.55);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease;
+}
+
+.gallery-more:hover .gallery-overlay {
+    background: rgba(27, 33, 64, 0.65);
+}
+
+/* ---------- Detay blokları ---------- */
+.detail-block {
+    background: #fff;
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow-sm);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    scroll-margin-top: 1.5rem;
+}
+
+.block-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.1rem;
+}
+
+.block-head .block-title {
+    margin-bottom: 0.25rem;
+}
+
+.block-text {
+    color: var(--sf-muted);
+    font-size: 0.95rem;
+    margin: 0 0 1.5rem;
+}
+
+/* Otel hakkında */
+.about-text p {
+    max-width: 68ch;
+    margin-bottom: 0.9rem;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+}
+
+.tag-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--sf-primary);
+    background: var(--sf-primary-soft);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+}
+
+/* Özellikler */
+.facility-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    height: 100%;
+    padding: 0.6rem;
+    border-radius: var(--sf-radius);
+    transition: background-color 0.2s ease;
+}
+
+.facility-item:hover {
+    background: var(--sf-bg-soft);
+}
+
+.facility-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--sf-primary-soft);
+    color: var(--sf-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.facility-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    min-width: 0;
+}
+
+.facility-text strong {
+    color: var(--sf-ink);
+    font-size: 0.92rem;
+}
+
+.facility-text small {
+    color: var(--sf-muted);
+    font-size: 0.8rem;
+}
+
+/* Konum */
+.location-card {
+    border-radius: var(--sf-radius);
+    overflow: hidden;
+    background: var(--sf-bg-soft);
+}
+
+.map-placeholder {
+    position: relative;
+    height: 260px;
+    overflow: hidden;
+}
+
+.map-placeholder svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.map-pin {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.map-pin i {
+    font-size: 2.6rem;
+    color: var(--sf-primary);
+    line-height: 1;
+    filter: drop-shadow(0 6px 10px rgba(59, 63, 182, 0.35));
+}
+
+.map-pin-label {
+    background: var(--sf-ink);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+}
+
+.location-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.location-address {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 700;
+    color: var(--sf-ink);
+    margin-bottom: 1rem;
+}
+
+.location-address i {
+    color: var(--sf-primary);
+}
+
+.nearby-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nearby-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--sf-line);
+    font-size: 0.92rem;
+}
+
+.nearby-list span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nearby-list i {
+    color: var(--sf-muted);
+}
+
+.nearby-list strong {
+    color: var(--sf-ink);
+    white-space: nowrap;
+}
+
+/* Odalar */
+.room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.room-card {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) 180px;
+    gap: 1.25rem;
+    padding: 0.75rem;
+    border-radius: var(--sf-radius);
+    background: var(--sf-bg-soft);
+    transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.room-card:hover {
+    background: #fff;
+    box-shadow: var(--sf-shadow);
+}
+
+.room-card-featured {
+    background: #fff;
+    box-shadow: 0 0 0 2px var(--sf-primary);
+}
+
+.room-card-featured:hover {
+    box-shadow: 0 0 0 2px var(--sf-primary), var(--sf-shadow);
+}
+
+.room-media {
+    position: relative;
+    min-height: 170px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #DADDF6, #F5F6FA);
+}
+
+.room-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.room-info {
+    padding: 0.5rem 0;
+    min-width: 0;
+}
+
+.room-name {
+    font-size: 1.15rem;
+    margin-bottom: 0.6rem;
+}
+
+.room-specs,
+.room-perks {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.6rem;
+}
+
+.room-specs {
+    gap: 0.35rem 1.1rem;
+    font-size: 0.88rem;
+    color: var(--sf-ink);
+    font-weight: 600;
+}
+
+.room-specs li,
+.room-perks li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.room-specs i {
+    color: var(--sf-primary);
+}
+
+.room-perks {
+    gap: 0.4rem;
+}
+
+.room-perks li {
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: #fff;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+}
+
+.room-card:hover .room-perks li,
+.room-card-featured .room-perks li {
+    background: var(--sf-bg-soft);
+}
+
+.room-perks .perk-positive,
+.room-card:hover .room-perks .perk-positive,
+.room-card-featured .room-perks .perk-positive {
+    color: var(--sf-success);
+    background: var(--sf-success-soft);
+}
+
+.policy-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    color: var(--sf-muted);
+    font-weight: 600;
+}
+
+.policy-free {
+    color: var(--sf-success);
+}
+
+.room-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    text-align: right;
+    padding: 0.5rem 0.5rem 0.25rem 0;
+}
+
+/* Değerlendirmeler */
+.review-summary {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 2rem;
+    align-items: center;
+}
+
+.review-score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--sf-primary-soft);
+    border-radius: var(--sf-radius);
+    padding: 1.5rem 1rem;
+}
+
+.review-big {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--sf-primary);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+
+.review-score-box strong {
+    color: var(--sf-ink);
+    font-size: 1.05rem;
+}
+
+.review-score-box span:last-child {
+    font-size: 0.8rem;
+    color: var(--sf-muted);
+}
+
+.review-bars {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem 2rem;
+}
+
+.bar-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    grid-template-areas:
+        "label value"
+        "track track";
+    gap: 0.3rem 0.5rem;
+    align-items: center;
+}
+
+.bar-label {
+    grid-area: label;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--sf-ink);
+}
+
+.bar-value {
+    grid-area: value;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--sf-ink);
+    text-align: right;
+}
+
+.bar-track {
+    grid-area: track;
+    height: 8px;
+    background: var(--sf-line);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: var(--sf-primary);
+    border-radius: 999px;
+}
+
+.review-card {
+    height: 100%;
+    margin: 0;
+    background: var(--sf-bg-soft);
+    border-radius: var(--sf-radius);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.review-card blockquote {
+    margin: 0;
+    color: var(--sf-ink);
+    font-weight: 600;
+}
+
+.review-card figcaption {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.review-card figcaption > span:nth-child(2) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.review-card figcaption strong {
+    color: var(--sf-ink);
+    font-size: 0.9rem;
+}
+
+.review-card figcaption small {
+    color: var(--sf-muted);
+    font-size: 0.78rem;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--sf-ink);
+    color: #fff;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-score {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--sf-primary);
+    background: var(--sf-primary-soft);
+    padding: 0.2rem 0.55rem;
+    border-radius: 8px;
+}
+
+/* ---------- Booking Summary ---------- */
+.booking-card {
+    background: #fff;
+    border-radius: var(--sf-radius-lg);
+    box-shadow: var(--sf-shadow);
+    padding: 1.75rem;
+}
+
+@media (min-width: 992px) {
+    .booking-card {
+        position: sticky;
+        top: 1.5rem;
+    }
+}
+
+.booking-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.1rem;
+}
+
+.booking-list,
+.booking-total {
+    margin: 0;
+}
+
+.booking-list > div,
+.booking-total > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.55rem 0;
+}
+
+.booking-list > div + div {
+    border-top: 1px solid var(--sf-line);
+}
+
+.booking-list dt,
+.booking-total dt {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--sf-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.booking-list dd,
+.booking-total dd {
+    margin: 0;
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--sf-ink);
+    text-align: right;
+}
+
+.booking-price {
+    display: flex;
+    flex-direction: column;
+    background: var(--sf-bg-soft);
+    border-radius: var(--sf-radius);
+    padding: 1rem 1.2rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.price-lg {
+    font-size: 2.1rem;
+}
+
+.booking-total > div {
+    padding: 0.35rem 0;
+}
+
+.booking-total .total-row {
+    border-top: 1px solid var(--sf-line);
+    margin-top: 0.35rem;
+    padding-top: 0.75rem;
+}
+
+.booking-total .total-row dt,
+.booking-total .total-row dd {
+    color: var(--sf-ink);
+    font-weight: 800;
+    font-size: 1.05rem;
+}
+
+.btn-book {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+    background: var(--sf-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: 0;
+    border-radius: var(--sf-radius);
+    padding: 0.95rem 1rem;
+    box-shadow: 0 10px 24px rgba(59, 63, 182, 0.35);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-book:hover,
+.btn-book:focus-visible {
+    background: var(--sf-primary-dark);
+    color: #fff;
+    box-shadow: 0 14px 28px rgba(59, 63, 182, 0.4);
+}
+
+.trust-list {
+    list-style: none;
+    padding: 0;
+    margin: 1.1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.trust-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--sf-text);
+}
+
+.trust-list i {
+    color: var(--sf-success);
+    font-size: 1.05rem;
+}
+
+/* ---------- Hotel Photos Slider ---------- */
+.photos-block {
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.photos-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.photos-head .block-title {
+    margin-bottom: 0.25rem;
+}
+
+.photos-head .block-text {
+    margin: 0;
+}
+
+.slider-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.slider-btn {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--sf-bg-soft);
+    color: var(--sf-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.slider-btn:hover {
+    background: var(--sf-primary);
+    color: #fff;
+}
+
+.photo-track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 2rem) / 3);
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-bottom: 0.75rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sf-line) transparent;
+}
+
+.photo-track::-webkit-scrollbar {
+    height: 6px;
+}
+
+.photo-track::-webkit-scrollbar-thumb {
+    background: var(--sf-line);
+    border-radius: 999px;
+}
+
+.photo-item {
+    margin: 0;
+    scroll-snap-align: start;
+}
+
+.photo-frame {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--sf-radius);
+    overflow: hidden;
+    background: linear-gradient(160deg, #DADDF6, #F5F6FA);
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.photo-zoom {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--sf-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.photo-frame:hover img {
+    transform: scale(1.04);
+}
+
+.photo-frame:hover .photo-zoom,
+.photo-frame:focus-visible .photo-zoom {
+    opacity: 1;
+}
+
+.photo-item figcaption {
+    display: flex;
+    flex-direction: column;
+    padding: 0.7rem 0.25rem 0;
+    font-size: 0.85rem;
+    color: var(--sf-muted);
+    line-height: 1.35;
+}
+
+.photo-cat {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--sf-ink);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+    background: var(--sf-ink);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 4rem 0 2rem;
+}
+
+.footer-brand .brand-text {
+    color: #fff;
+}
+
+.footer-brand .brand-text span {
+    color: #A9ADF0;
+}
+
+.footer-text {
+    margin: 1rem 0 0;
+    max-width: 30ch;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem 2rem;
+    margin: 0;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.875rem;
+}
+
+.footer-social {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.footer-social a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.footer-social a:hover {
+    background: var(--sf-primary);
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 1199.98px) {
+    .room-card {
+        grid-template-columns: 180px minmax(0, 1fr) 160px;
+    }
+
+    .review-bars {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablet ve mobil */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: #fff;
+        border-radius: var(--sf-radius);
+        box-shadow: var(--sf-shadow);
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .main-menu .nav-link.active {
+        box-shadow: none;
+        background: var(--sf-primary-soft);
+    }
+
+    .nav-actions {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--sf-line);
+    }
+
+    .hotel-heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hotel-gallery {
+        grid-template-rows: repeat(2, 160px);
+    }
+
+    /* Rezervasyon paneli içerikten sonra, fotoğraf slider'ından önce görünür */
+    .detail-layout > aside {
+        order: 2;
+    }
+
+    .photo-track {
+        grid-auto-columns: calc((100% - 1rem) / 2);
+    }
+}
+
+@media (max-width: 767.98px) {
+    .detail-block {
+        padding: 1.4rem;
+    }
+
+    .block-title {
+        font-size: 1.25rem;
+    }
+
+    /* Galeri: büyük görsel üstte, 4 küçük görsel altta */
+    .hotel-gallery {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: 220px 80px;
+        gap: 0.5rem;
+    }
+
+    .gallery-main {
+        grid-column: 1 / -1;
+        grid-row: auto;
+    }
+
+    .gallery-tag {
+        display: none;
+    }
+
+    .gallery-overlay {
+        font-size: 0.8rem;
+    }
+
+    .gallery-overlay i {
+        display: none;
+    }
+
+    /* Oda kartları dikey */
+    .room-card {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .room-media {
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+    }
+
+    .room-info {
+        padding: 0.25rem 0.5rem 0;
+    }
+
+    .room-price {
+        align-items: stretch;
+        text-align: left;
+        padding: 0.75rem 0.5rem 0.5rem;
+        border-top: 1px solid var(--sf-line);
+    }
+
+    .review-summary {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .nearby-list {
+        grid-template-columns: 1fr;
+    }
+
+    .map-placeholder {
+        height: 200px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .heading-side {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .hotel-gallery {
+        grid-template-rows: 200px 64px;
+    }
+
+    .photos-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .photo-track {
+        grid-auto-columns: 88%;
+    }
+
+    .footer-links {
+        justify-content: flex-start;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+
+    .photo-track {
+        scroll-behavior: auto;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand brand" href="index.html">
+                    <span class="brand-mark"><i class="bi bi-geo-alt-fill"></i></span>
+                    <span class="brand-text">Stay<span>Finder</span></span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Menüyü aç">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto me-lg-4 main-menu">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Ana Sayfa</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="hotel-list.html">Oteller</a></li>
+                        <li class="nav-item"><a class="nav-link" href="index.html#destinations">Popüler Şehirler</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Hakkımızda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">İletişim</a></li>
+                    </ul>
+
+                    <div class="nav-actions">
+                        <button type="button" class="currency-pill" aria-label="Para birimi: Euro">
+                            <i class="bi bi-currency-euro"></i> EUR
+                        </button>
+                        <a href="#" class="account-btn" aria-label="Hesabım">
+                            <i class="bi bi-person"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Razor: HotelId, Latitude ve Longitude değerleri data-* özelliklerinde tutulur -->
+    <main class="hotel-page"
+          data-hotel-id="101"
+          data-city="Milano" data-country="İtalya"
+          data-latitude="45.4842" data-longitude="9.2040"
+          data-checkin="2026-10-28" data-checkout="2026-10-31"
+          data-currency="EUR">
+
+        <div class="container">
+
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb sf-breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item"><a href="hotel-list.html">Oteller</a></li>
+                    <li class="breadcrumb-item"><a href="hotel-list.html">Milano</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">NYX Hotel Milan</li>
+                </ol>
+            </nav>
+
+            <!-- Hotel Heading -->
+            <section class="hotel-heading">
+                <div class="heading-main">
+                    <!-- @Model.HotelName -->
+                    <h1 class="hotel-title">NYX Hotel Milan</h1>
+                    <div class="hotel-stars">
+                        <!-- @Model.StarRating -->
+                        <span class="stars" aria-label="4 yıldız">★★★★</span>
+                        <span class="stars-text">4 Yıldızlı Otel</span>
+                    </div>
+                    <p class="hotel-address">
+                        <i class="bi bi-geo-alt"></i>
+                        <!-- @Model.Address, @Model.City, @Model.Country -->
+                        <span>Milano Centrale, Milano, İtalya</span>
+                        <a href="#location" class="map-link">Haritada Göster</a>
+                    </p>
+                </div>
+
+                <div class="heading-side">
+                    <div class="heading-rating">
+                        <div class="rating-text">
+                            <strong>Çok İyi</strong>
+                            <!-- @Model.ReviewCount -->
+                            <span>2.184 değerlendirme</span>
+                        </div>
+                        <!-- @Model.ReviewScore -->
+                        <span class="rating-score rating-score-lg">8,7</span>
+                    </div>
+                    <div class="heading-actions">
+                        <button type="button" class="icon-btn fav-btn" aria-label="Favorilere ekle"><i class="bi bi-heart"></i></button>
+                        <button type="button" class="icon-btn" aria-label="Paylaş"><i class="bi bi-share"></i></button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hotel Gallery -->
+            <!-- Razor: Model.PhotoUrls[0] büyük görsel, [1]-[4] küçük görseller -->
+            <section class="hotel-gallery" aria-label="Otel fotoğrafları">
+                <a href="#hotelPhotos" class="gallery-item gallery-main">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1400&q=80&auto=format&fit=crop"
+                         alt="NYX Hotel Milan dış cephe">
+                </a>
+                <a href="#hotelPhotos" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=700&q=80&auto=format&fit=crop"
+                         alt="Oda" loading="lazy">
+                    <span class="gallery-tag">Oda</span>
+                </a>
+                <a href="#hotelPhotos" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=700&q=80&auto=format&fit=crop"
+                         alt="Lobi" loading="lazy">
+                    <span class="gallery-tag">Lobi</span>
+                </a>
+                <a href="#hotelPhotos" class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80&auto=format&fit=crop"
+                         alt="Restoran" loading="lazy">
+                    <span class="gallery-tag">Restoran</span>
+                </a>
+                <a href="#hotelPhotos" class="gallery-item gallery-more">
+                    <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=700&q=80&auto=format&fit=crop"
+                         alt="Banyo" loading="lazy">
+                    <span class="gallery-overlay"><i class="bi bi-images"></i> +12 Fotoğraf</span>
+                </a>
+            </section>
+
+            <div class="row g-4 g-xl-5 detail-layout">
+
+                <!-- Sol kolon: detay içerikleri -->
+                <div class="col-lg-8">
+
+                    <!-- Hotel About -->
+                    <section class="detail-block" id="about">
+                        <h2 class="block-title">Otel Hakkında</h2>
+                        <!-- @Model.Description -->
+                        <div class="about-text">
+                            <p>NYX Hotel Milan, Milano Centrale istasyonuna kısa yürüme mesafesinde bulunan modern ve şık bir şehir otelidir. Merkezi konumu sayesinde Duomo, Brera ve Corso Buenos Aires gibi Milano'nun popüler noktalarına kolay ulaşım sağlar.</p>
+                            <p>Modern odaları, restoranı ve konforlu ortak alanlarıyla hem iş hem de turistik seyahatler için ideal bir konaklama seçeneğidir. Otelin çatı katındaki bar, akşamları şehir manzarası eşliğinde dinlenmek için sakin bir alan sunar.</p>
+                        </div>
+                        <ul class="tag-list">
+                            <li><i class="bi bi-buildings"></i> Şehir Merkezi</li>
+                            <li><i class="bi bi-pin-map"></i> Merkezi Konum</li>
+                            <li><i class="bi bi-briefcase"></i> İş Seyahati İçin Uygun</li>
+                            <li><i class="bi bi-people"></i> Çiftler İçin Popüler</li>
+                        </ul>
+                    </section>
+
+                    <!-- Facilities -->
+                    <section class="detail-block" id="facilities">
+                        <h2 class="block-title">Popüler Özellikler</h2>
+                        <!-- Razor: @foreach (var facility in Model.Facilities) -->
+                        <div class="row g-3 facility-grid">
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-wifi"></i></span>
+                                    <span class="facility-text"><strong>Wi-Fi</strong><small>Ücretsiz</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-cup-hot"></i></span>
+                                    <span class="facility-text"><strong>Kahvaltı</strong><small>Mevcut</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-snow"></i></span>
+                                    <span class="facility-text"><strong>Klima</strong><small>Tüm odalarda</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-clock"></i></span>
+                                    <span class="facility-text"><strong>24 Saat Resepsiyon</strong><small>Her gün</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-heart-pulse"></i></span>
+                                    <span class="facility-text"><strong>Fitness Merkezi</strong><small>06:00 - 23:00</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-egg-fried"></i></span>
+                                    <span class="facility-text"><strong>Restoran</strong><small>İtalyan mutfağı</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-cup-straw"></i></span>
+                                    <span class="facility-text"><strong>Bar</strong><small>Çatı katında</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-p-circle"></i></span>
+                                    <span class="facility-text"><strong>Otopark</strong><small>Ücretli</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-suitcase2"></i></span>
+                                    <span class="facility-text"><strong>Bagaj Muhafazası</strong><small>Ücretsiz</small></span>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="facility-item">
+                                    <span class="facility-icon"><i class="bi bi-bell"></i></span>
+                                    <span class="facility-text"><strong>Oda Servisi</strong><small>07:00 - 23:00</small></span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Location -->
+                    <section class="detail-block" id="location">
+                        <h2 class="block-title">Otel Konumu</h2>
+                        <div class="location-card">
+                            <!-- Statik harita görseli. İleride Latitude/Longitude ile gerçek harita eklenebilir. -->
+                            <div class="map-placeholder" aria-label="Otel konumu haritası" role="img">
+                                <svg viewBox="0 0 800 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <rect width="800" height="300" fill="#EEF0F6"/>
+                                    <!-- Park alanları -->
+                                    <rect x="40" y="30" width="150" height="90" rx="14" fill="#DCEFE4"/>
+                                    <rect x="590" y="190" width="170" height="80" rx="14" fill="#DCEFE4"/>
+                                    <!-- Kanal -->
+                                    <path d="M0 250 C 200 230, 330 280, 520 240 S 760 220, 800 235" stroke="#CFE0F5" stroke-width="16" fill="none"/>
+                                    <!-- Ana yollar -->
+                                    <g stroke="#FFFFFF" stroke-linecap="round" fill="none">
+                                        <path d="M0 150 L800 130" stroke-width="18"/>
+                                        <path d="M260 0 L320 300" stroke-width="16"/>
+                                        <path d="M560 0 L500 300" stroke-width="14"/>
+                                        <path d="M0 60 L260 80 L560 40 L800 70" stroke-width="10"/>
+                                        <path d="M320 210 L800 200" stroke-width="10"/>
+                                        <path d="M110 300 L180 150" stroke-width="8"/>
+                                        <path d="M660 0 L700 130" stroke-width="8"/>
+                                    </g>
+                                    <!-- Bina blokları -->
+                                    <g fill="#E3E6EF">
+                                        <rect x="340" y="60" width="70" height="55" rx="8"/>
+                                        <rect x="420" y="55" width="110" height="60" rx="8"/>
+                                        <rect x="340" y="160" width="140" height="35" rx="8"/>
+                                        <rect x="590" y="80" width="60" height="40" rx="8"/>
+                                        <rect x="40" y="170" width="110" height="50" rx="8"/>
+                                    </g>
+                                    <!-- Tren hattı -->
+                                    <path d="M420 0 L440 300" stroke="#C3C7DA" stroke-width="4" stroke-dasharray="10 8"/>
+                                    <!-- Yakın nokta işaretleri -->
+                                    <circle cx="436" cy="118" r="7" fill="#7A7F9A"/>
+                                    <circle cx="210" cy="95" r="7" fill="#7A7F9A"/>
+                                    <circle cx="610" cy="215" r="7" fill="#7A7F9A"/>
+                                </svg>
+                                <!-- Otel pini -->
+                                <div class="map-pin">
+                                    <span class="map-pin-label">NYX Hotel Milan</span>
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
+                            </div>
+
+                            <div class="location-body">
+                                <p class="location-address">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <!-- @Model.Address -->
+                                    <span>Via Tortona 35, Milano, İtalya</span>
+                                </p>
+
+                                <ul class="nearby-list">
+                                    <li><span><i class="bi bi-train-front"></i> Milano Centrale</span><strong>450 m</strong></li>
+                                    <li><span><i class="bi bi-bag"></i> Corso Buenos Aires</span><strong>1,2 km</strong></li>
+                                    <li><span><i class="bi bi-bank"></i> Duomo di Milano</span><strong>2,8 km</strong></li>
+                                    <li><span><i class="bi bi-palette"></i> Brera</span><strong>2,4 km</strong></li>
+                                    <li><span><i class="bi bi-airplane"></i> Malpensa Havalimanı</span><strong>48 km</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Rooms -->
+                    <section class="detail-block" id="rooms">
+                        <div class="block-head">
+                            <h2 class="block-title">Uygun Odalar</h2>
+                            <p class="block-text">28 Ekim 2026 - 31 Ekim 2026 · 3 Gece · 2 Yetişkin · 1 Çocuk</p>
+                        </div>
+
+                        <div class="room-list">
+
+                            <!-- Room Card Start -->
+                            <!-- Razor: @foreach (var room in Model.Rooms) { <partial name="_RoomCard" model="room" /> } -->
+                            <article class="room-card" data-room-id="R-201">
+                                <div class="room-media">
+                                    <!-- @room.RoomPhoto -->
+                                    <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=700&q=80&auto=format&fit=crop"
+                                         alt="Standard Double Room" loading="lazy">
+                                </div>
+                                <div class="room-info">
+                                    <!-- @room.RoomName -->
+                                    <h3 class="room-name">Standard Double Room</h3>
+                                    <ul class="room-specs">
+                                        <li><i class="bi bi-moon-stars"></i> 1 çift kişilik yatak</li>   <!-- @room.BedType -->
+                                        <li><i class="bi bi-person"></i> 2 yetişkin</li>                  <!-- @room.MaxGuests -->
+                                        <li><i class="bi bi-arrows-angle-expand"></i> 22 m²</li>         <!-- @room.RoomSize -->
+                                    </ul>
+                                    <ul class="room-perks">
+                                        <li><i class="bi bi-wifi"></i> Ücretsiz Wi-Fi</li>
+                                        <li><i class="bi bi-snow"></i> Klima</li>
+                                    </ul>
+                                    <!-- @room.CancellationPolicy -->
+                                    <span class="policy-text"><i class="bi bi-info-circle"></i> İade edilmez</span>
+                                </div>
+                                <div class="room-price">
+                                    <span class="price-meta">3 gece için</span>
+                                    <span class="price">€428</span>          <!-- @room.Price @room.Currency -->
+                                    <span class="price-note">+ €48 vergi ve ücret</span>
+                                    <button type="button" class="btn btn-primary-sf w-100">Odayı Seç</button>
+                                </div>
+                            </article>
+                            <!-- Room Card End -->
+
+                            <!-- Room Card Start -->
+                            <article class="room-card room-card-featured" data-room-id="R-305">
+                                <div class="room-media">
+                                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=700&q=80&auto=format&fit=crop"
+                                         alt="Superior Room" loading="lazy">
+                                    <span class="media-badge">En Çok Tercih Edilen</span>
+                                </div>
+                                <div class="room-info">
+                                    <h3 class="room-name">Superior Room</h3>
+                                    <ul class="room-specs">
+                                        <li><i class="bi bi-moon-stars"></i> 1 büyük çift kişilik yatak</li>
+                                        <li><i class="bi bi-people"></i> 2 yetişkin + 1 çocuk</li>
+                                        <li><i class="bi bi-arrows-angle-expand"></i> 28 m²</li>
+                                    </ul>
+                                    <ul class="room-perks">
+                                        <li><i class="bi bi-buildings"></i> Şehir manzarası</li>
+                                        <li class="perk-positive"><i class="bi bi-cup-hot"></i> Kahvaltı dahil</li>
+                                    </ul>
+                                    <span class="policy-text"><i class="bi bi-info-circle"></i> Girişten 3 gün öncesine kadar iptal</span>
+                                </div>
+                                <div class="room-price">
+                                    <span class="price-meta">3 gece için</span>
+                                    <span class="price">€512</span>
+                                    <span class="price-note">+ €48 vergi ve ücret</span>
+                                    <button type="button" class="btn btn-primary-sf w-100">Odayı Seç</button>
+                                </div>
+                            </article>
+                            <!-- Room Card End -->
+
+                            <!-- Room Card Start -->
+                            <article class="room-card" data-room-id="R-512">
+                                <div class="room-media">
+                                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=700&q=80&auto=format&fit=crop"
+                                         alt="Junior Suite" loading="lazy">
+                                </div>
+                                <div class="room-info">
+                                    <h3 class="room-name">Junior Suite</h3>
+                                    <ul class="room-specs">
+                                        <li><i class="bi bi-moon-stars"></i> King Size yatak</li>
+                                        <li><i class="bi bi-people"></i> 3 kişiye kadar</li>
+                                        <li><i class="bi bi-arrows-angle-expand"></i> 38 m²</li>
+                                    </ul>
+                                    <ul class="room-perks">
+                                        <li><i class="bi bi-lamp"></i> Oturma alanı</li>
+                                        <li class="perk-positive"><i class="bi bi-cup-hot"></i> Kahvaltı dahil</li>
+                                    </ul>
+                                    <span class="policy-text policy-free"><i class="bi bi-check2-circle"></i> Ücretsiz iptal</span>
+                                </div>
+                                <div class="room-price">
+                                    <span class="price-meta">3 gece için</span>
+                                    <span class="price">€684</span>
+                                    <span class="price-note">+ €52 vergi ve ücret</span>
+                                    <button type="button" class="btn btn-primary-sf w-100">Odayı Seç</button>
+                                </div>
+                            </article>
+                            <!-- Room Card End -->
+
+                        </div>
+                    </section>
+
+                    <!-- Reviews -->
+                    <section class="detail-block" id="reviews">
+                        <h2 class="block-title">Misafir Değerlendirmeleri</h2>
+
+                        <div class="review-summary">
+                            <div class="review-score-box">
+                                <span class="review-big">8,7</span>
+                                <strong>Çok İyi</strong>
+                                <span>2.184 değerlendirme</span>
+                            </div>
+
+                            <div class="review-bars">
+                                <div class="bar-row">
+                                    <span class="bar-label">Temizlik</span>
+                                    <div class="bar-track"><div class="bar-fill" style="width: 91%"></div></div>
+                                    <span class="bar-value">9,1</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Konum</span>
+                                    <div class="bar-track"><div class="bar-fill" style="width: 92%"></div></div>
+                                    <span class="bar-value">9,2</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Konfor</span>
+                                    <div class="bar-track"><div class="bar-fill" style="width: 88%"></div></div>
+                                    <span class="bar-value">8,8</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Personel</span>
+                                    <div class="bar-track"><div class="bar-fill" style="width: 89%"></div></div>
+                                    <span class="bar-value">8,9</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Fiyat / Performans</span>
+                                    <div class="bar-track"><div class="bar-fill" style="width: 83%"></div></div>
+                                    <span class="bar-value">8,3</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Wi-Fi</span>
+                                    <div class="bar-track"><div class="bar-fill" style="width: 86%"></div></div>
+                                    <span class="bar-value">8,6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-6">
+                                <figure class="review-card">
+                                    <blockquote>"Konumu çok iyiydi, metroya ve tren istasyonuna oldukça yakın."</blockquote>
+                                    <figcaption>
+                                        <span class="avatar">E</span>
+                                        <span><strong>Elif</strong><small>Türkiye, Ekim 2026</small></span>
+                                        <span class="mini-score">9,0</span>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                                <figure class="review-card">
+                                    <blockquote>"Odalar temiz ve moderndi, personel ilgiliydi."</blockquote>
+                                    <figcaption>
+                                        <span class="avatar">M</span>
+                                        <span><strong>Mert</strong><small>Türkiye, Eylül 2026</small></span>
+                                        <span class="mini-score">8,5</span>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Booking Summary -->
+                <aside class="col-lg-4">
+                    <div class="booking-card">
+                        <h2 class="booking-title">Konaklama Özeti</h2>
+
+                        <dl class="booking-list">
+                            <div><dt><i class="bi bi-box-arrow-in-right"></i> Giriş</dt><dd>28 Ekim 2026</dd></div>
+                            <div><dt><i class="bi bi-box-arrow-right"></i> Çıkış</dt><dd>31 Ekim 2026</dd></div>
+                            <div><dt><i class="bi bi-moon"></i> Süre</dt><dd>3 Gece</dd></div>
+                            <div><dt><i class="bi bi-people"></i> Misafir</dt><dd>2 Yetişkin, 1 Çocuk</dd></div>
+                            <div><dt><i class="bi bi-door-closed"></i> Oda</dt><dd>1 Oda</dd></div>
+                        </dl>
+
+                        <div class="booking-price">
+                            <span class="price-meta">Başlangıç fiyatı</span>
+                            <span class="price price-lg">€428</span>
+                            <span class="price-meta">3 gece için</span>
+                        </div>
+
+                        <dl class="booking-total">
+                            <div><dt>Konaklama</dt><dd>€428</dd></div>
+                            <div><dt>Vergiler ve ücretler</dt><dd>€48</dd></div>
+                            <div class="total-row"><dt>Toplam</dt><dd>€476</dd></div>
+                        </dl>
+
+                        <a href="#rooms" class="btn btn-book w-100">
+                            <i class="bi bi-door-open"></i> Oda Seç
+                        </a>
+
+                        <ul class="trust-list">
+                            <li><i class="bi bi-check2"></i> Anında Onay</li>
+                            <li><i class="bi bi-check2"></i> Güvenli İşlem</li>
+                            <li><i class="bi bi-check2"></i> Ücretsiz İptal Seçenekleri</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Hotel Photos Slider -->
+            <section class="detail-block photos-block" id="hotelPhotos">
+                <div class="photos-head">
+                    <div>
+                        <h2 class="block-title">NYX Hotel Milan Fotoğrafları</h2>
+                        <p class="block-text">Odaları, ortak alanları ve otelin sunduğu imkanları daha yakından inceleyin.</p>
+                    </div>
+                    <div class="slider-nav">
+                        <button type="button" class="slider-btn" data-dir="-1" aria-label="Önceki fotoğraflar"><i class="bi bi-chevron-left"></i></button>
+                        <button type="button" class="slider-btn" data-dir="1" aria-label="Sonraki fotoğraflar"><i class="bi bi-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Razor: @foreach (var photo in Model.PhotoUrls) -->
+                <div class="photo-track" id="photoTrack" tabindex="0" aria-label="Otel fotoğrafları kaydırılabilir alan">
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Deluxe Double Room fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=80&auto=format&fit=crop" alt="Deluxe Double Room" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Deluxe Oda</span> Deluxe Double Room</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Standard Double Room fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=900&q=80&auto=format&fit=crop" alt="Standard Double Room" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Standard Oda</span> Standard Double Room</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Banyo fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=900&q=80&auto=format&fit=crop" alt="Banyo" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Banyo</span> Yağmur duşlu modern banyo</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Otel Lobisi fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=900&q=80&auto=format&fit=crop" alt="Otel Lobisi" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Otel Lobisi</span> Resepsiyon ve oturma alanı</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Restoran fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&q=80&auto=format&fit=crop" alt="Restoran" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Restoran</span> İtalyan mutfağı restoranı</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Kahvaltı Alanı fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=900&q=80&auto=format&fit=crop" alt="Kahvaltı Alanı" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Kahvaltı Alanı</span> Açık büfe kahvaltı</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Fitness Merkezi fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=80&auto=format&fit=crop" alt="Fitness Merkezi" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Fitness Merkezi</span> Tam donanımlı spor salonu</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Dış Cephe fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=900&q=80&auto=format&fit=crop" alt="Dış Cephe" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Dış Cephe</span> Otel girişi</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                    <!-- Hotel Photo Item Start -->
+                    <figure class="photo-item">
+                        <a href="#" class="photo-frame" aria-label="Şehir Manzarası fotoğrafını büyüt">
+                            <img src="https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=900&q=80&auto=format&fit=crop" alt="Şehir Manzarası" loading="lazy">
+                            <span class="photo-zoom"><i class="bi bi-arrows-fullscreen"></i></span>
+                        </a>
+                        <figcaption><span class="photo-cat">Şehir Manzarası</span> Çatı katından Milano</figcaption>
+                    </figure>
+                    <!-- Hotel Photo Item End -->
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row g-4 align-items-start">
+                <div class="col-12 col-md-6">
+                    <a class="brand footer-brand" href="index.html">
+                        <span class="brand-mark"><i class="bi bi-geo-alt-fill"></i></span>
+                        <span class="brand-text">Stay<span>Finder</span></span>
+                    </a>
+                    <p class="footer-text">Bir sonraki konaklaman için doğru oteli keşfet.</p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="index.html">Ana Sayfa</a></li>
+                        <li><a href="hotel-list.html">Oteller</a></li>
+                        <li><a href="#">Hakkımızda</a></li>
+                        <li><a href="#">İletişim</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 StayFinder. Tüm hakları saklıdır.</span>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS (navbar için) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Sadece arayüz: fotoğraf slider'ı ve favori butonu (veri çekme yok) -->
+    <script>
+        (function () {
+            var track = document.getElementById('photoTrack');
+            document.querySelectorAll('.slider-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var item = track.querySelector('.photo-item');
+                    var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                    var step = item ? item.offsetWidth + gap : track.clientWidth;
+                    track.scrollBy({ left: step * parseInt(btn.dataset.dir, 10), behavior: 'smooth' });
+                });
+            });
+
+            document.querySelectorAll('.fav-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var active = btn.classList.toggle('is-active');
+                    btn.querySelector('i').className = active ? 'bi bi-heart-fill' : 'bi bi-heart';
+                    btn.setAttribute('aria-label', active ? 'Favorilerden çıkar' : 'Favorilere ekle');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
