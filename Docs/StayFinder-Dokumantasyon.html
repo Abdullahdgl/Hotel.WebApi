@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <title>StayFinder / Hotel.WebApi — Katmanlı Sistem Dökümanı</title>
+  <style>
+    @page { size: A4; margin: 18mm 16mm; }
+    :root {
+      --ink: #1B2140;
+      --text: #333a55;
+      --muted: #5d6480;
+      --line: #d9dce8;
+      --primary: #3B3FB6;
+      --soft: #EEF0FC;
+      --bg: #f7f8fc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Calibri, Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 11pt;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3, h4 { color: var(--ink); page-break-after: avoid; }
+    h1 { font-size: 26pt; letter-spacing: -0.03em; margin: 0 0 8px; }
+    h2 {
+      font-size: 16pt;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 6px;
+      margin-top: 28px;
+    }
+    h3 { font-size: 13pt; margin-top: 20px; }
+    h4 { font-size: 11.5pt; margin-bottom: 6px; }
+    p { margin: 8px 0; }
+    .cover {
+      background: var(--ink);
+      color: #fff;
+      padding: 36px 32px;
+      border-radius: 16px;
+      margin-bottom: 28px;
+    }
+    .cover h1 { color: #fff; }
+    .cover p { color: rgba(255,255,255,.82); margin: 6px 0; }
+    .badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      font-size: 9pt;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-right: 6px;
+    }
+    .toc a { color: var(--primary); text-decoration: none; }
+    .toc ol { padding-left: 22px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10pt;
+      margin: 10px 0 16px;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--soft); color: var(--ink); }
+    code, .mono {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9.5pt;
+    }
+    pre {
+      background: #0f1224;
+      color: #e8eaf6;
+      padding: 12px 14px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 8.8pt;
+      line-height: 1.4;
+      page-break-inside: avoid;
+    }
+    .note, .warn, .ok {
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 12px 0;
+      page-break-inside: avoid;
+    }
+    .note { background: var(--soft); border-left: 4px solid var(--primary); }
+    .warn { background: #fff4e8; border-left: 4px solid #d97706; }
+    .ok { background: #eaf7ef; border-left: 4px solid #1e8a5a; }
+    .flow {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      margin: 12px 0 18px;
+      page-break-inside: avoid;
+    }
+    .flow pre {
+      background: transparent;
+      color: var(--ink);
+      padding: 0;
+      margin: 0;
+      font-size: 9pt;
+      white-space: pre;
+    }
+    .layers { display: block; }
+    .layer {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      background: #fff;
+      page-break-inside: avoid;
+    }
+    .layer b { color: var(--primary); }
+    .small { color: var(--muted); font-size: 9.5pt; }
+    ul { margin: 6px 0 10px; }
+    .footer-note { color: var(--muted); font-size: 9pt; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+<div class="cover">
+  <span class="badge">ASP.NET Core 8 MVC</span>
+  <span class="badge">RapidAPI · booking-com15</span>
+  <span class="badge">StayFinder UI</span>
+  <h1>StayFinder / Hotel.WebApi</h1>
+  <p>Katman katman sistem dökümanı, istek akışları, örneklemeler ve entegrasyon haritası.</p>
+  <p>Proje kökü: Hotel.WebApi &nbsp;·&nbsp; Uygulama: Project6_HotelApi &nbsp;·&nbsp; Kasım 2026</p>
+  <p>Bu belge mevcut kodu açıklar. Mimari değiştirilmemiştir. Gizli anahtarlar yazılmaz.</p>
+</div>
+
+<h2>1. Bu proje nedir?</h2>
+<p>
+StayFinder, otel arama ve detay gösteren bir <b>MVC web uygulamasıdır</b>. Kendi veritabanı yoktur.
+Otel verisi RapidAPI üzerindeki <b>Booking.com 15</b> (<code>booking-com15.p.rapidapi.com</code>) servisinden canlı çekilir.
+Kullanıcı tarayıcıda form doldurur; sunucu o formu RapidAPI sorgularına çevirir; dönen JSON’u ViewModel’e map’ler; Razor sayfası HTML basar.
+</p>
+<p>
+Ek olarak eski bir deneme sayfası vardır: <code>ImdbController</code>. StayFinder akışının parçası değildir.
+</p>
+
+<div class="ok">
+  <b>Tek cümle:</b> Bu bir API ürünü değil; API <i>tüketen</i> bir web sitesidir. Dışarıya REST endpoint açmaz, dışarıdan JSON okur.
+</div>
+
+<h2>2. İçindekiler</h2>
+<ol class="toc">
+  <li>Bu proje nedir?</li>
+  <li>İçindekiler</li>
+  <li>Teknoloji yığını</li>
+  <li>Klasör ve katman haritası</li>
+  <li>Uygulama ayağa kalkışı (Program.cs)</li>
+  <li>Yapılandırma ve sırlar</li>
+  <li>Routing ve sayfa envanteri</li>
+  <li>Katman 1 — Tarayıcı / Razor</li>
+  <li>Katman 2 — MVC Controller</li>
+  <li>Katman 3 — ViewModel (UI sözleşmesi)</li>
+  <li>Katman 4 — DTO (RapidAPI JSON)</li>
+  <li>Katman 5 — HTTP istemcisi</li>
+  <li>Katman 6 — RapidAPI / Booking</li>
+  <li>Ana sayfa akışı (örnek)</li>
+  <li>Otel arama akışı (3 adımlı API)</li>
+  <li>Otel detay akışı</li>
+  <li>İstemci tarafı filtre / sıralama</li>
+  <li>Hata ve kota durumları</li>
+  <li>IMDb deneme sayfası</li>
+  <li>Çalıştırma</li>
+  <li>Neye dokunulmaz / sınırlar</li>
+</ol>
+
+<h2>3. Teknoloji yığını</h2>
+<table>
+  <tr><th>Parça</th><th>Seçim</th><th>Nerede</th></tr>
+  <tr><td>Çatı</td><td>ASP.NET Core 8, MVC (Controllers + Views)</td><td>Project6_HotelApi.csproj, Program.cs</td></tr>
+  <tr><td>UI</td><td>Razor (.cshtml), Bootstrap 5.3 CDN, Bootstrap Icons, Manrope font</td><td>_StayFinderLayout.cshtml</td></tr>
+  <tr><td>Stil</td><td>Özel CSS</td><td>wwwroot/css/stayfinder.css</td></tr>
+  <tr><td>JSON</td><td>Newtonsoft.Json (otel), System.Text.Json (IMDb)</td><td>HotelController, ImdbController</td></tr>
+  <tr><td>Dış servis</td><td>RapidAPI Booking.com 15</td><td>HotelController GetJsonAsync</td></tr>
+  <tr><td>Yerel sır</td><td>appsettings.Local.json (git’e konmamalı)</td><td>Program.cs AddJsonFile</td></tr>
+  <tr><td>Veritabanı</td><td>Yok</td><td>—</td></tr>
+  <tr><td>Kimlik / login</td><td>Yok (navbar’da görsel hesap ikonu)</td><td>_StayFinderLayout</td></tr>
+</table>
+
+<h2>4. Klasör ve katman haritası</h2>
+<p>Çözüm tek web projesidir. Klasik N-tier (DAL/BLL) ayrımı yoktur; katmanlar aynı projede dosya grupları olarak durur.</p>
+
+<div class="layers">
+  <div class="layer"><b>L0 · Host</b> — Kestrel / IIS Express, launchSettings.json (http://localhost:5209, https://localhost:7265)</div>
+  <div class="layer"><b>L1 · Pipeline</b> — Program.cs: config, MVC, HTTPS, static files, routing</div>
+  <div class="layer"><b>L2 · Presentation</b> — Views/, wwwroot/css, layout’lar</div>
+  <div class="layer"><b>L3 · Application</b> — Controllers (Home, Hotel, Imdb)</div>
+  <div class="layer"><b>L4 · UI Models</b> — HotelViewModels.cs (ekrana giden şekil)</div>
+  <div class="layer"><b>L5 · Integration DTOs</b> — BookingDtos.cs (dış JSON’un C# karşılığı)</div>
+  <div class="layer"><b>L6 · Gateway</b> — HotelController içindeki HttpClient + RapidAPI header’ları</div>
+  <div class="layer"><b>L7 · External</b> — RapidAPI Booking.com 15</div>
+</div>
+
+<div class="flow">
+  <pre>
+Kullanıcı tarayıcı
+        │  GET /  veya  GET /Hotel?CityName=Milano&amp;...
+        ▼
+ASP.NET pipeline (static files, routing)
+        │
+        ▼
+Controller action
+        │  ViewModel doldur / RapidAPI çağır
+        ▼
+Razor view + _StayFinderLayout
+        │
+        ▼
+HTML + stayfinder.css  →  tarayıcıda StayFinder arayüzü
+  </pre>
+</div>
+
+<h3>Önemli dosyalar</h3>
+<table>
+  <tr><th>Dosya</th><th>Görevi</th></tr>
+  <tr><td>Program.cs</td><td>Uygulamayı kurar, Local json’u okur, MVC route’u bağlar</td></tr>
+  <tr><td>Controllers/HomeController.cs</td><td>Ana sayfa, gizlilik, hata</td></tr>
+  <tr><td>Controllers/HotelController.cs</td><td>Arama + detay + RapidAPI çağrıları (tüm otel işi burada)</td></tr>
+  <tr><td>Controllers/ImdbController.cs</td><td>İlgisiz RapidAPI denemesi</td></tr>
+  <tr><td>Models/HotelViewModels.cs</td><td>Sayfaların gördüğü modeller + HotelFormat yardımcıları</td></tr>
+  <tr><td>Models/BookingDtos.cs</td><td>Booking JSON alan adları (snake_case / API isimleri)</td></tr>
+  <tr><td>Views/Home/Index.cshtml</td><td>StayFinder ana sayfa + arama formu</td></tr>
+  <tr><td>Views/Hotel/Index.cshtml</td><td>Liste, filtre, kartlar</td></tr>
+  <tr><td>Views/Hotel/Details.cshtml</td><td>Otel detay, galeri, odalar</td></tr>
+  <tr><td>Views/Shared/_StayFinderLayout.cshtml</td><td>Header/footer, CDN CSS/JS</td></tr>
+  <tr><td>wwwroot/css/stayfinder.css</td><td>Ana, liste, detay stilleri</td></tr>
+  <tr><td>appsettings.json</td><td>BookingHost</td></tr>
+  <tr><td>appsettings.Local.json</td><td>RapidApi:Key (yerel)</td></tr>
+</table>
+
+<h2>5. Uygulama ayağa kalkışı (Program.cs)</h2>
+<p>İstek gelmeden önce host şu sırayla kurulur:</p>
+<div class="flow">
+  <pre>
+1. WebApplication.CreateBuilder(args)
+      ├─ appsettings.json
+      ├─ appsettings.{Environment}.json   (Development)
+      ├─ ortam değişkenleri
+      └─ sonra eklenen: appsettings.Local.json  (optional: true)
+
+2. AddControllersWithViews()
+      Controller + Razor aktif
+
+3. Pipeline
+      Development değilse  →  /Home/Error + HSTS
+      UseHttpsRedirection
+      UseStaticFiles          (/css, /lib, görseller)
+      UseRouting
+      UseAuthorization        (policy yok; varsayılan middleware)
+      MapControllerRoute      {controller=Home}/{action=Index}/{id?}
+
+4. app.Run()
+  </pre>
+</div>
+<p>
+Varsayılan rota: boş URL <code>HomeController.Index</code> olur. <code>/Hotel</code> → <code>HotelController.Index</code>.
+<code>/Hotel/Details/123</code> yerine query string ile <code>hotelId</code> gider (Detay action’ı id route’una bağlı değildir).
+</p>
+
+<h2>6. Yapılandırma ve sırlar</h2>
+<table>
+  <tr><th>Anahtar</th><th>Kaynak</th><th>Kullanım</th></tr>
+  <tr><td>RapidApi:BookingHost</td><td>appsettings.json</td><td>Varsayılan host: booking-com15.p.rapidapi.com</td></tr>
+  <tr><td>RapidApi:Key</td><td>appsettings.Local.json</td><td>x-rapidapi-key header</td></tr>
+</table>
+<p>
+<code>Program.cs</code> Local dosyayı <code>optional: true</code> okur. Dosya yoksa uygulama açılır ama otel araması
+“RapidAPI anahtarı bulunamadı” der. Örnek şablon: <code>appsettings.Local.example.json</code>.
+</p>
+<div class="warn">
+  <b>Key ≠ JWT token.</b> RapidAPI Application Key’dir. “Bitmesi” çoğu zaman sürenin dolması değil,
+  BASIC planda aylık istek kotasının (HTTP 429) dolmasıdır. Aynı key ile TripAdvisor API’si
+  otomatik çalışmaz; o ürün için ayrı abonelik gerekir.
+</div>
+<pre>{
+  "RapidApi": {
+    "Key": "BURAYA_RAPIDAPI_KEY"
+  }
+}</pre>
+
+<h2>7. Routing ve sayfa envanteri</h2>
+<table>
+  <tr><th>URL</th><th>Controller / Action</th><th>Layout</th><th>Dış API?</th></tr>
+  <tr><td>/</td><td>Home / Index</td><td>_StayFinderLayout</td><td>Hayır</td></tr>
+  <tr><td>/Home/Privacy</td><td>Home / Privacy</td><td>_Layout (ViewStart)</td><td>Hayır</td></tr>
+  <tr><td>/Home/Error</td><td>Home / Error</td><td>_Layout</td><td>Hayır</td></tr>
+  <tr><td>/Hotel</td><td>Hotel / Index</td><td>_StayFinderLayout</td><td>CityName boşsa hayır</td></tr>
+  <tr><td>/Hotel?CityName=Milano&amp;...</td><td>Hotel / Index</td><td>_StayFinderLayout</td><td>Evet, 2 çağrı</td></tr>
+  <tr><td>/Hotel/Details?hotelId=...</td><td>Hotel / Details</td><td>_StayFinderLayout</td><td>Evet, 1 çağrı</td></tr>
+  <tr><td>/Imdb</td><td>Imdb / Index</td><td>_Layout</td><td>Evet, IMDb top 100</td></tr>
+</table>
+<p>
+<code>Views/_ViewStart.cshtml</code> varsayılan layout’u <code>_Layout</code> yapar. StayFinder sayfaları
+view içinde <code>Layout = "_StayFinderLayout"</code> ile bunu ezer.
+</p>
+
+<h2>8. Katman 1 — Tarayıcı / Razor</h2>
+<p>
+Kullanıcının gördüğü her şey Razor + CSS’tir. StayFinder layout şunları yükler:
+</p>
+<ul>
+  <li>Google Fonts: Manrope</li>
+  <li>Bootstrap 5.3.3 CSS/JS (CDN)</li>
+  <li>Bootstrap Icons</li>
+  <li><code>~/css/stayfinder.css</code> (asp-append-version)</li>
+</ul>
+<p>
+Layout <code>ViewData["Nav"]</code>, <code>ViewData["Currency"]</code>, <code>ViewData["BodyClass"]</code> okur.
+Navbar’da aktif menü ve EUR/USD rozeti buradan gelir. Footer sabittir.
+</p>
+<h4>Üç ekran</h4>
+<ol>
+  <li><b>Ana sayfa:</b> kahraman alanı, arama paneli (şehir, tarih, para, yetişkin/çocuk/oda sayaçları), popüler şehir kartları (Milano, Roma, Paris, Barcelona — Unsplash görselleri, sabit liste).</li>
+  <li><b>Liste:</b> özet arama çubuğu, boş durum / hata / otel kartları, sol filtre (fiyat, yıldız, puan), sıralama. Filtreler sunucuya gitmez; tarayıcıda kart gizler.</li>
+  <li><b>Detay:</b> galeri, adres, puan, fiyat, olanaklar, oda blokları, önemli notlar. Rezervasyon aslında Booking URL’sine (varsa) yönlenir; kendi ödeme sistemi yoktur.</li>
+</ol>
+
+<h2>9. Katman 2 — MVC Controller</h2>
+<p>
+İş kurallarının neredeyse tamamı <code>HotelController</code> içindedir. Ayrı Service / Repository sınıfı yoktur.
+</p>
+<table>
+  <tr><th>Metot</th><th>Girdi</th><th>Çıktı</th></tr>
+  <tr><td>Index(HotelSearchPageViewModel)</td><td>Query string (model binding)</td><td>View(model)</td></tr>
+  <tr><td>Details(hotelId, checkIn, ...)</td><td>Ayrı parametreler</td><td>View(HotelDetailViewModel)</td></tr>
+  <tr><td>PrepareForm</td><td>model</td><td>tarih, kişi, para varsayılanları</td></tr>
+  <tr><td>FindDestinationAsync</td><td>şehir adı</td><td>BookingDestination (dest_id)</td></tr>
+  <tr><td>SearchHotelsAsync</td><td>destinasyon + form</td><td>List&lt;HotelCardViewModel&gt;</td></tr>
+  <tr><td>GetHotelDetailAsync</td><td>detay sayfası alanları</td><td>BookingHotelDetail</td></tr>
+  <tr><td>GetJsonAsync / BuildUrl</td><td>path + query</td><td>ham JSON string</td></tr>
+</table>
+<p>
+Constructor <code>IConfiguration</code> ile key ve host okur. HttpClient her istekte <code>new HttpClient()</code> ile oluşturulur
+(kısa ömürlü; IHttpClientFactory kullanılmaz). Timeout 40 saniye.
+</p>
+
+<h2>10. Katman 3 — ViewModel (UI sözleşmesi)</h2>
+<p>
+View’lar asla ham Booking JSON’u görmez. Controller map’ler. Bu sayede Razor sade kalır.
+</p>
+<table>
+  <tr><th>Sınıf</th><th>Kim kullanır</th><th>Başlıca alanlar</th></tr>
+  <tr><td>HotelSearchPageViewModel</td><td>Hotel/Index</td><td>CityName, tarihler, Adults, Children, Rooms, Currency, Hotels, ErrorMessage</td></tr>
+  <tr><td>HotelCardViewModel</td><td>kart</td><td>HotelId, Name, PhotoUrl, Price, ReviewScore, Stars</td></tr>
+  <tr><td>HotelDetailViewModel</td><td>Details</td><td>adres, foto, olanak, odalar, fiyat, BookingUrl</td></tr>
+  <tr><td>HotelRoomViewModel</td><td>oda kartı</td><td>Name, Size, BreakfastIncluded, Refundable, Policy</td></tr>
+  <tr><td>HotelFormat</td><td>view static helper</td><td>Money, ScoreWord, Stars, Date, Nights, Guests (tr-TR)</td></tr>
+</table>
+<p>
+Para birimi whitelist: TRY, EUR, USD, GBP. Diğer değerler EUR’a çekilir.
+</p>
+
+<h2>11. Katman 4 — DTO (RapidAPI JSON)</h2>
+<p>
+<code>BookingDtos.cs</code> alan adları API’deki gibi durur (<code>dest_id</code>, <code>hotel_id</code>, <code>grossPrice</code>).
+Newtonsoft varsayılanı birebir isim eşler. Özel durum: politika <code>class</code> alanı C# keyword olduğu için
+<code>[JsonProperty("class")] public string? kind</code> ile okunur.
+</p>
+<pre>BookingDestinationResponse
+  status, message
+  data[] → dest_id, search_type, name, label
+
+BookingHotelSearchResponse
+  data.hotels[] → hotel_id
+                 property.name, reviewScore, photoUrls[],
+                 priceBreakdown.grossPrice.value/currency
+
+BookingHotelDetailResponse
+  data → hotel_name, address, rooms{}, block[],
+         facilities_block, composite_price_breakdown
+</pre>
+
+<h2>12. Katman 5 — HTTP istemcisi</h2>
+<p>Her RapidAPI çağrısı aynı kalıptadır:</p>
+<pre>GET https://{BookingHost}{path}?{query}
+
+Headers:
+  x-rapidapi-key:  {RapidApi:Key}
+  x-rapidapi-host: {BookingHost}
+</pre>
+<p>
+Başarı değilse exception fırlatılır; action bunu yakalayıp kullanıcıya Türkçe genel mesaj basar
+(ham RapidAPI gövdesi ekrana çıkmaz).
+</p>
+
+<h2>13. Katman 6 — RapidAPI / Booking uçları</h2>
+<p>Bu projenin kullandığı üç uç (sıra zorunlu):</p>
+<table>
+  <tr><th>#</th><th>Path</th><th>Ne işe yarar</th><th>Zorunlu parametreler</th></tr>
+  <tr><td>1</td><td>/api/v1/hotels/searchDestination</td><td>Şehir adından dest_id</td><td>query</td></tr>
+  <tr><td>2</td><td>/api/v1/hotels/searchHotels</td><td>Otel listesi + fiyat</td><td>dest_id, search_type, arrival_date, departure_date, adults, room_qty, currency_code</td></tr>
+  <tr><td>3</td><td>/api/v1/hotels/getHotelDetails</td><td>Tek otel detayı</td><td>hotel_id, arrival_date, departure_date, adults, room_qty, currency_code</td></tr>
+</table>
+<div class="note">
+TripAdvisor <code>Get Hotel Details</code> bu tabloya uymaz. Oradaki <code>id</code> Booking <code>hotel_id</code> değildir.
+Bu yüzden o API’yi “gömek” backend map’ini kırar.
+</div>
+
+<h2>14. Ana sayfa akışı (örnek)</h2>
+<div class="flow">
+  <pre>
+Kullanıcı  →  GET /
+Routing    →  HomeController.Index()
+           →  View()   (model yok)
+Razor      →  Varsayılan tarihler: bugün+14 / +17
+           →  Form action = Hotel/Index  method=get
+           →  Gizli/görünür alanlar: CityName, CheckIn, CheckOut,
+              Currency, Adults, Children, Rooms, ChildAge
+
+Örnek gönderim:
+  /Hotel?CityName=Milano&amp;CheckIn=2026-11-15&amp;CheckOut=2026-11-18
+        &amp;Currency=EUR&amp;Adults=2&amp;Children=0&amp;Rooms=1&amp;ChildAge=2
+
+Popüler kart "Milano" aynı query’yi hazır link olarak üretir.
+  </pre>
+</div>
+<p>
+Sayaçlar JavaScript ile artar/azalır. Çocuk 0 iken yaş kutusu gizlenir. Submit olunca buton “Aranıyor...” olur.
+</p>
+
+<h2>15. Otel arama akışı (3 adımlı API)</h2>
+<p>En kritik akış budur. Örnek: Milano, 15–18 Kasım 2026, 2 yetişkin, 1 oda, EUR.</p>
+
+<div class="flow">
+  <pre>
+GET /Hotel?CityName=Milano&amp;CheckIn=2026-11-15&amp;CheckOut=2026-11-18&amp;Adults=2&amp;Rooms=1&amp;Currency=EUR
+
+HotelController.Index
+  1) model binding  (query → HotelSearchPageViewModel)
+  2) PrepareForm
+        CheckIn boşsa  Today+14
+        CheckOut boşsa CheckIn+2
+        Adults 1..10, Children 0..6, Rooms 1..5
+        Currency whitelist
+  3) CityName boş mu?
+        EVET → View (API yok, boş arama kartı)
+        HAYIR ↓
+  4) Key yok mu? → ErrorMessage, View
+  5) CheckOut &lt;= CheckIn? → hata
+  6) CheckIn &lt; Today? → hata
+  7) FindDestinationAsync("Milano")
+  8) SearchHotelsAsync(dest, model)
+  9) Hotels boşsa uyarı
+ 10) View(Index.cshtml)
+  </pre>
+</div>
+
+<h3>15.1 Adım A — Destinasyon</h3>
+<pre>GET https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination?query=Milano</pre>
+<p>
+Cevaptaki <code>data</code> listesinde önce <code>search_type == "city"</code> olan kayıt seçilir; yoksa ilk kayıt.
+<code>dest_id</code> ve <code>search_type</code> sonraki çağrıya gider. <code>label</code> sayfada “bölge” metni olur.
+</p>
+<pre>{
+  "status": true,
+  "data": [
+    { "dest_id": "-121726", "search_type": "city", "name": "Milan", "label": "Milan, Italy" }
+  ]
+}</pre>
+<p class="small">Sayısal dest_id örnektir; gerçek değer API’den gelir.</p>
+
+<h3>15.2 Adım B — Otel listesi</h3>
+<pre>GET .../api/v1/hotels/searchHotels
+    ?dest_id=-121726
+    &amp;search_type=CITY
+    &amp;arrival_date=2026-11-15
+    &amp;departure_date=2026-11-18
+    &amp;adults=2
+    &amp;room_qty=1
+    &amp;page_number=1
+    &amp;units=metric
+    &amp;temperature_unit=c
+    &amp;languagecode=en-us
+    &amp;currency_code=EUR</pre>
+<p>
+Çocuk varsa <code>children_age</code> tekrarlanır: 2 çocuk, yaş 7 → <code>7,7</code>.
+</p>
+<p>
+Her otel <code>HotelCardViewModel</code> olur. <code>hotel_id &lt;= 0</code> veya <code>property == null</code> atlanır.
+Foto ilk <code>photoUrls[0]</code>, fiyat <code>grossPrice.value</code>.
+</p>
+
+<div class="flow">
+  <pre>
+JSON property                  →  HotelCardViewModel
+hotel_id                       →  HotelId
+property.name                  →  Name
+property.wishlistName          →  City
+property.photoUrls[0]          →  PhotoUrl
+property.priceBreakdown.grossPrice.value     → Price
+property.priceBreakdown.grossPrice.currency  → Currency
+property.reviewScore           →  ReviewScore
+property.reviewScoreWord       →  ReviewScoreWord
+property.reviewCount           →  ReviewCount
+property.propertyClass         →  Stars (0 ise null)
+  </pre>
+</div>
+
+<h3>15.3 View çıktısı</h3>
+<ul>
+  <li>Kart yok + hata yok → “Aramaya başlamak için bir şehir yaz”</li>
+  <li>Kart var → N konaklama, filtreler, sıralama, sayfalama görseli (tek sayfa, gerçek paging yok)</li>
+  <li>Kartın “Detayları Gör” linki tüm arama parametrelerini Details’e taşır ki fiyat/tarih tutarlı kalsın</li>
+</ul>
+
+<h2>16. Otel detay akışı</h2>
+<div class="flow">
+  <pre>
+GET /Hotel/Details
+    ?hotelId=123456
+    &amp;cityName=Milano
+    &amp;checkIn=2026-11-15
+    &amp;checkOut=2026-11-18
+    &amp;adults=2&amp;children=0&amp;rooms=1&amp;childAge=2
+    &amp;currency=EUR
+    &amp;reviewScore=8.6&amp;reviewWord=Very%20good
+
+Details action
+  1) HotelDetailViewModel doldur (form + query)
+  2) hotelId &lt;= 0 → hata
+  3) key yok → hata
+  4) GetHotelDetailAsync
+        GET /api/v1/hotels/getHotelDetails?hotel_id=123456&amp;arrival_date=...
+  5) data null / status false → "Otel detayı bulunamadı"
+  6) Map:
+        hotel_name, address+zip+city+country
+        photos: rooms[].photos url_max750 (en fazla 12)
+        facilities_block + property_highlight_strip
+        block[] → en fazla 4 oda kartı
+        descriptions: hotel_text + oda açıklamaları (4)
+        notes: important_information (3)
+        price: composite_price_breakdown.gross_amount
+  7) View(Details.cshtml)
+  </pre>
+</div>
+<p>
+Galeri ilk 5 foto. Olanak ikonları view içindeki <code>FacilityIcon</code> ile isimden tahmin edilir (wifi, havuz, spa…).
+Sunucu tarafında rezervasyon kaydı yoktur.
+</p>
+
+<h2>17. İstemci tarafı filtre / sıralama</h2>
+<p>
+Liste sayfasındaki sıralama ve filtre <b>yeni HTTP isteği atmaz</b>. Zaten basılmış <code>.hotel-card</code> elemanlarının
+<code>data-price</code>, <code>data-score</code>, <code>data-stars</code>, <code>data-reviews</code>, <code>data-order</code>
+öznitelikleri okunur.
+</p>
+<table>
+  <tr><th>Kontrol</th><th>Davranış</th></tr>
+  <tr><td>Sırala</td><td>DOM’da kartları yeniden dizer (önerilen = orijinal sıra)</td></tr>
+  <tr><td>Yıldız / puan / fiyat</td><td>uymayan karta <code>is-hidden</code></td></tr>
+  <tr><td>Tümünü temizle</td><td>checkbox/input sıfır, hepsi görünür</td></tr>
+</table>
+<p>
+Sonuç: RapidAPI kotası filtre her değişince yanmaz; ama sadece o an yüklenen (1. sayfa) oteller filtrelenir.
+</p>
+
+<h2>18. Hata ve kota durumları</h2>
+<table>
+  <tr><th>Durum</th><th>Kullanıcı mesajı (özet)</th><th>Kaynak</th></tr>
+  <tr><td>CityName boş</td><td>Boş arama UI</td><td>Index erken return</td></tr>
+  <tr><td>Key yok</td><td>Local.json’a anahtar yaz</td><td>config</td></tr>
+  <tr><td>Tarih mantığı</td><td>çıkış &gt; giriş, giriş ≥ bugün</td><td>Prepare / validasyon</td></tr>
+  <tr><td>dest_id yok</td><td>şehir bulunamadı</td><td>searchDestination</td></tr>
+  <tr><td>hotels boş</td><td>uygun otel yok</td><td>searchHotels</td></tr>
+  <tr><td>HTTP hata / timeout / 429</td><td>servise ulaşılamadı</td><td>GetJsonAsync catch</td></tr>
+  <tr><td>detay boş</td><td>detay bulunamadı</td><td>getHotelDetails</td></tr>
+</table>
+<div class="warn">
+Playground’da görülen <b>429 MONTHLY quota BASIC</b> tam olarak bu catch’e düşer. Token “yanlış” olmayabilir;
+aylık ücretsiz hak bitmiştir. Çözüm: plan yükseltmek veya ayın resetini beklemek. Key değiştirmek kotayı sıfırlamaz
+(aynı RapidAPI uygulamasıysa).
+</div>
+
+<h2>19. IMDb deneme sayfası</h2>
+<p>
+<code>/Imdb</code> → <code>https://imdb-top-100-movies.p.rapidapi.com/</code> → <code>List&lt;ImdbMoviesViewModel&gt;</code>.
+StayFinder layout kullanmaz. Key dosyadan değil, controller içine gömülü yazılmıştır; otel akışından bağımsızdır
+ve güvenlik açısından paylaşılmamalıdır.
+</p>
+
+<h2>20. Çalıştırma</h2>
+<ol>
+  <li>Visual Studio veya <code>dotnet run --project Project6_HotelApi</code></li>
+  <li>Profil: https://localhost:7265 veya http://localhost:5209</li>
+  <li><code>appsettings.Local.json</code> içinde geçerli RapidAPI key</li>
+  <li>Booking.com 15 ürününe abone ve kotası dolmamış plan</li>
+  <li>Ana sayfadan şehir yazıp ara veya Milano kartına tıkla</li>
+</ol>
+<p>
+HTTPS yönlendirme açıktır. Development’ta özel exception sayfası kullanılmaz (developer exception middleware
+Program.cs’te ekli değildir; Development’ta ham hata, diğerlerinde /Home/Error).
+</p>
+
+<h2>21. Neye dokunulmaz / sınırlar</h2>
+<ul>
+  <li>Veritabanı, kullanıcı hesabı, gerçek rezervasyon yok.</li>
+  <li>Sayfalama API’de <code>page_number=1</code> sabit; UI’daki sayfa 1 dekoratif.</li>
+  <li>Liste filtreleri sadece o anki HTML kartlarını etkiler.</li>
+  <li>HttpClient her çağrıda new; yüksek trafikte önerilen desen IHttpClientFactory değildir (ama bu ödev ölçeğinde çalışır).</li>
+  <li>TripAdvisor veya başka RapidAPI ürünü mevcut DTO/controller ile drop-in değildir.</li>
+  <li>Ana sayfa destinasyonları API’den gelmez; Razor’da sabit dizi.</li>
+  <li>StayFinder “Hakkımızda / İletişim” linkleri <code>href="#"</code>.</li>
+</ul>
+
+<div class="ok">
+<b>Özet zincir:</b> Form (GET) → HotelController → (opsiyonel) searchDestination → searchHotels veya getHotelDetails
+→ DTO → ViewModel → Razor → CSS. Araya başka katman, kuyruk veya veritabanı girmez.
+</div>
+
+<p class="footer-note">
+StayFinder / Hotel.WebApi sistem dökümanı. Kaynak koddan türetilmiştir. RapidAPI anahtarları bu PDF’te yer almaz.
+</p>
+
+</body>
+</html>

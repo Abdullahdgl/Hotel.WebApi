@@ -2,7 +2,7 @@
 
 namespace Project6_HotelApi.Models
 {
-	public class HotelViewModels
+	public class HotelSearchPageViewModel
 	{
 		public string? CityName { get; set; }
 		public DateTime CheckIn { get; set; }

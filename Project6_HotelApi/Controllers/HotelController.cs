@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Project6_HotelApi.Models;
 
 namespace Project6_HotelApi.Controllers
 {
@@ -15,6 +16,7 @@ namespace Project6_HotelApi.Controllers
 			_apiHost = configuration["RapidApi:BookingHost"] ?? "booking-com15.p.rapidapi.com";
 		}
 
+	
 		public async Task<IActionResult> Index(HotelSearchPageViewModel model)
 		{
 			model ??= new HotelSearchPageViewModel();

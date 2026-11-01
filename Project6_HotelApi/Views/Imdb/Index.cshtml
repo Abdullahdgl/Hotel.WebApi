@@ -1,0 +1,35 @@
+﻿@model List<ImdbMoviesViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1>IMDB Top 100 Movies</h1>
+<table class="table table-striped table-hover">
+
+    <tr>
+        <th>#</th>
+        <th>Afiş</th>
+        <th>Film Adı</th>
+        <th>Çıkış Yılı</th>
+        <th>Konusu</th>
+        <th>Imdb Link</th>
+        <th>Puan</th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>@item.rank</th>
+            <td><img src="@item.thumbnail" />  </td>
+            <td>@item.title</td>
+            <td>@item.year</td>
+            <td>@item.description</td>
+            <td> <a href="@item.imdb_link" target="_blank" class="btn btn-warning">Imdb Linki</a>   </td>
+            <td>@item.rating</td>
+        </tr>
+    }
+</table>
