@@ -66,9 +66,7 @@ Eğitim sürecime katkı sağlayan, bilgi ve tecrübeleriyle gelişimime destek 
 
 <img width="982" height="533" alt="2" src="https://github.com/user-attachments/assets/1d052b0e-f01f-47f5-9981-875e5323f30f" />
 
-<br/>
 
-<img width="1229" height="510" alt="1" src="https://github.com/user-attachments/assets/5be6af77-03a9-4207-bec2-24ecec831e90" />
 <br/>
 <img width="1016" height="886" alt="6" src="https://github.com/user-attachments/assets/513d4ec2-1970-4756-9ca6-c06d46e3b1b7" />
 <br/>
