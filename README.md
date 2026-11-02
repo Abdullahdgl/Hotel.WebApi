@@ -57,23 +57,30 @@ Bu çalışma sayesinde yalnızca bir web arayüzü ortaya çıkarmış olmadım
 
 Eğitim sürecime katkı sağlayan, bilgi ve tecrübeleriyle gelişimime destek olan **Murat Yücedağ** ve **Erhan Gündüz** hocalarıma emekleri için teşekkür ederim.
 
-<img width="987" height="840" alt="4" src="https://github.com/user-attachments/assets/f9aea9ed-41e8-4b9b-955f-09f487794a8e" />
 <br/>
-<img width="1038" height="497" alt="3" src="https://github.com/user-attachments/assets/afd82b2c-c11d-46a8-ad70-d027b39c2e13" />
+
+<img width="1229" height="510" alt="1" src="https://github.com/user-attachments/assets/0a30dd85-b078-4408-9459-762e20a3ac30" />
+
+
 <br/>
-<img width="982" height="533" alt="2" src="https://github.com/user-attachments/assets/1a31f625-bcec-493e-96b0-31fc02e3cca9" />
+
+<img width="982" height="533" alt="2" src="https://github.com/user-attachments/assets/1d052b0e-f01f-47f5-9981-875e5323f30f" />
+
 <br/>
-<img width="1229" height="510" alt="1" src="https://github.com/user-attachments/assets/af50f067-59a6-4c61-84a2-5a98d16c5214" />
+
+<img width="1229" height="510" alt="1" src="https://github.com/user-attachments/assets/5be6af77-03a9-4207-bec2-24ecec831e90" />
 <br/>
-<img width="563" height="568" alt="9" src="https://github.com/user-attachments/assets/9844e61a-fff4-48bf-9a2a-d38142938f0b" />
+<img width="1016" height="886" alt="6" src="https://github.com/user-attachments/assets/513d4ec2-1970-4756-9ca6-c06d46e3b1b7" />
 <br/>
-<img width="899" height="305" alt="8" src="https://github.com/user-attachments/assets/687fdaf6-983e-4730-a530-e2231d90421d" />
+<img width="1016" height="886" alt="7" src="https://github.com/user-attachments/assets/4adba295-7ff3-4ef3-ba88-1ef4e1d179f3" />
+
 <br/>
-<img width="1016" height="886" alt="7" src="https://github.com/user-attachments/assets/de07d31a-f6c1-4d2d-881a-bd2458e2789e" />
+
+<img width="899" height="305" alt="8" src="https://github.com/user-attachments/assets/7abb9c3f-254d-4d2e-982d-252bc0cc201b" />
+
 <br/>
-<img width="1016" height="886" alt="6" src="https://github.com/user-attachments/assets/da0806b2-57a6-4689-a61f-cc25113aafff" />
-<br/>
-<img width="1016" height="886" alt="5" src="https://github.com/user-attachments/assets/ab03d0a7-c9c7-4b6c-a914-1bfb513c7469" />
+<img width="987" height="840" alt="4" src="https://github.com/user-attachments/assets/5edb5444-36ae-4d24-bcbf-90b3837e6af6" />
+
 
 
 
